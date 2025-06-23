@@ -18,7 +18,7 @@ func TestNew(t *testing.T) {
 	ls.Insert("精")
 	ls.Insert("精确")
 
-	strings := ls.Search(QueryOption{minGram: 2, value: "精确快速"})
+	strings := ls.Search(QueryOption{MinGram: 2, Value: "精确快速"})
 	for _, s := range strings {
 		fmt.Println(s)
 	}

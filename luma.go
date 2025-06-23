@@ -34,27 +34,27 @@ func (ls *LumaSearch) Insert(doc string) {
 }
 
 type QueryOption struct {
-	value   string // 搜索词
-	minGram int    // 最小切词长度
-	maxGram int    // 最大切词长度
-	limit   int    // 返回的文档数量
+	Value   string // 搜索词
+	MinGram int    // 最小切词长度
+	MaxGram int    // 最大切词长度
+	Limit   int    // 返回的文档数量
 }
 
 func (ls *LumaSearch) Search(q QueryOption) ([]string, error) {
 	var docWeight = make(map[int64]int64)
 	var minGram = 1
-	if q.minGram > 0 {
-		minGram = q.minGram
+	if q.MinGram > 0 {
+		minGram = q.MinGram
 	}
-	var maxGram = StrLen(q.value)
-	if q.maxGram > 0 {
-		maxGram = q.maxGram
+	var maxGram = StrLen(q.Value)
+	if q.MaxGram > 0 {
+		maxGram = q.MaxGram
 	}
 	if minGram > maxGram {
-		return []string{}, fmt.Errorf("minGram must be less than maxGram")
+		return []string{}, fmt.Errorf("MinGram must be less than MaxGram")
 	}
 
-	keys := cut(q.value, minGram, maxGram)
+	keys := cut(q.Value, minGram, maxGram)
 	for _, key := range keys {
 		m := ls.invertedIndex[key]
 		for idx, weight := range m {
@@ -74,8 +74,8 @@ func (ls *LumaSearch) Search(q QueryOption) ([]string, error) {
 
 	var docs []string
 	var limit = 10
-	if q.limit > 0 {
-		limit = q.limit
+	if q.Limit > 0 {
+		limit = q.Limit
 	}
 
 	for _, e := range om.TopN(limit) {
@@ -104,7 +104,7 @@ func (ls *LumaSearch) pushToken(tokens []string) {
 	}
 }
 
-// cut 返回 s 的所有长度为 minGram 到 maxGram 的连续子串
+// cut 返回 s 的所有长度为 MinGram 到 MaxGram 的连续子串
 func cut(s string, minGram, maxGram int) []string {
 	runes := []rune(s)
 	n := len(runes)

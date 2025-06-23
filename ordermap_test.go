@@ -18,7 +18,7 @@ func TestNewSortableMap(t *testing.T) {
 		fmt.Printf("%s: %d\n", e.Key, e.Value)
 	}
 
-	fmt.Println("\n--- Sort by value desc---")
+	fmt.Println("\n--- Sort by Value desc---")
 	sm.SortByValue(false)
 	for _, e := range sm.All() {
 		fmt.Printf("%s: %d\n", e.Key, e.Value)
